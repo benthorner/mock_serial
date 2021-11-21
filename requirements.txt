@@ -1,0 +1,7 @@
+-e .
+
+pytest
+pytest-mock
+isort
+flake8
+pyserial
