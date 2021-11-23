@@ -5,3 +5,4 @@ pytest-mock
 isort
 flake8
 pyserial
+retry

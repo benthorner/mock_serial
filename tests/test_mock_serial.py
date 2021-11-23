@@ -1,26 +1,16 @@
 import logging
 import time
-from itertools import count
 
 import pytest
+from retry import retry as retrier
 from serial import Serial
 
 from mock_serial import MockSerial
 
 
-def retry(fn, *, times=3, period=1, initial_wait=.1):
-    time.sleep(initial_wait)
-
-    for attempt in count(start=1):
-        try:
-            fn()
-            return
-        except Exception:
-            if attempt >= times:
-                raise
-
-            print(f"Retrying attempt {attempt} of {times}.")
-            time.sleep(period)
+def retry(fn):
+    # logger=None stops failure logs causing a false positive
+    retrier(tries=9, delay=.1, logger=None)(fn)()
 
 
 def hanger(*_):
